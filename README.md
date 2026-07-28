@@ -1,6 +1,6 @@
 # TDMS Converter
 
-A desktop viewer and CSV converter for NI TDMS measurement files. Open a `.tdms`, see its
+A desktop viewer and CSV converter for TDMS measurement files. Open a `.tdms`, see its
 groups, channels and — the part a plain CSV throws away — every property, then export the
 channels you actually need.
 
