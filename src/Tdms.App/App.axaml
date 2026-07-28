@@ -1,0 +1,283 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Tdms.App.App"
+             RequestedThemeVariant="Light">
+
+  <Application.Resources>
+    <!-- Palette: TestBench.tools — pastel accents (soft pink to soft orange) on paper -->
+    <Color x:Key="SystemAccentColor">#DE8A6E</Color>
+    <Color x:Key="SystemAccentColorDark1">#D2694C</Color>
+    <Color x:Key="SystemAccentColorDark2">#C85A3E</Color>
+    <Color x:Key="SystemAccentColorDark3">#B04A32</Color>
+    <Color x:Key="SystemAccentColorLight1">#E9A98F</Color>
+    <Color x:Key="SystemAccentColorLight2">#F0BBA6</Color>
+    <Color x:Key="SystemAccentColorLight3">#F7DCCB</Color>
+
+    <SolidColorBrush x:Key="AppBackgroundBrush" Color="#F1F0EC" />
+
+    <SolidColorBrush x:Key="CardBrush" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="CardSoftBrush" Color="#F5F4EF" />
+    <SolidColorBrush x:Key="InkBrush" Color="#201F1C" />
+    <SolidColorBrush x:Key="InkHoverBrush" Color="#33322D" />
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="#201F1C" />
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="#6F6E66" />
+    <SolidColorBrush x:Key="AccentBrush" Color="#DE8A6E" />
+    <SolidColorBrush x:Key="AccentSoftBrush" Color="#F9EEEA" />
+    <SolidColorBrush x:Key="LineBrush" Color="#D8D6CE" />
+    <SolidColorBrush x:Key="ErrorBrush" Color="#D70027" />
+    <SolidColorBrush x:Key="OkBrush" Color="#201F1C" />
+
+    <!-- The accent is a pastel gradient rather than a flat colour (site hero palette) -->
+    <LinearGradientBrush x:Key="AccentGradientBrush" StartPoint="0%,0%" EndPoint="100%,100%">
+      <GradientStop Color="#EEA9BE" Offset="0" />
+      <GradientStop Color="#F0BBA6" Offset="0.5" />
+      <GradientStop Color="#F1CE9A" Offset="1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="AccentGradientPressedBrush" StartPoint="0%,0%" EndPoint="100%,100%">
+      <GradientStop Color="#E695AD" Offset="0" />
+      <GradientStop Color="#E9A98F" Offset="0.5" />
+      <GradientStop Color="#EBBE82" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- Atmospheric wash under the lead stat tile — pink to peach to mint -->
+    <LinearGradientBrush x:Key="SpectrumGlowBrush" StartPoint="0%,0%" EndPoint="100%,100%">
+      <GradientStop Color="#66F1B4C6" Offset="0" />
+      <GradientStop Color="#4EF4C7A6" Offset="0.4" />
+      <GradientStop Color="#38F5DCA6" Offset="0.68" />
+      <GradientStop Color="#1CE6EBC0" Offset="0.88" />
+      <GradientStop Color="#00DDE9E4" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- Fluent resource overrides (selected tab pill, check toggles) -->
+    <SolidColorBrush x:Key="TabItemHeaderSelectedPipeFill" Color="Transparent" />
+    <SolidColorBrush x:Key="TabItemHeaderForegroundSelected" Color="#FFFFFF" />
+    <StaticResource x:Key="ToggleButtonBackgroundChecked" ResourceKey="AccentGradientBrush" />
+    <StaticResource x:Key="ToggleButtonBackgroundCheckedPointerOver" ResourceKey="AccentGradientBrush" />
+    <StaticResource x:Key="ToggleButtonBackgroundCheckedPressed" ResourceKey="AccentGradientPressedBrush" />
+    <SolidColorBrush x:Key="ToggleButtonForegroundChecked" Color="#201F1C" />
+
+    <!-- Menu pictograms (24x24 vectors) -->
+    <StreamGeometry x:Key="IconFolder">M10 4H4C2.9 4 2.01 4.9 2.01 6L2 18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V8C22 6.9 21.1 6 20 6H12L10 4Z</StreamGeometry>
+    <StreamGeometry x:Key="IconDownload">M19 9H15V3H9V9H5L12 16L19 9ZM5 18V20H19V18H5Z</StreamGeometry>
+    <StreamGeometry x:Key="IconRefresh">M12 6V9L16 5 12 1V4C7.58 4 4 7.58 4 12C4 13.57 4.46 15.03 5.24 16.26L6.7 14.8C6.25 13.97 6 13.02 6 12C6 8.69 8.69 6 12 6ZM18.76 7.74L17.3 9.2C17.74 10.04 18 10.98 18 12C18 15.31 15.31 18 12 18V15L8 19 12 23V20C16.42 20 20 16.42 20 12C20 10.43 19.54 8.97 18.76 7.74Z</StreamGeometry>
+    <StreamGeometry x:Key="IconClose">M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12Z</StreamGeometry>
+    <StreamGeometry x:Key="IconChip">M15 9H9V15H15V9ZM13 13H11V11H13V13ZM21 11V9H19V7C19 5.9 18.1 5 17 5H15V3H13V5H11V3H9V5H7C5.9 5 5 5.9 5 7V9H3V11H5V13H3V15H5V17C5 18.1 5.9 19 7 19H9V21H11V19H13V21H15V19H17C18.1 19 19 18.1 19 17V15H21V13H19V11H21Z</StreamGeometry>
+    <StreamGeometry x:Key="IconTag">M20 10V8H17.19L17.99 4H15.99L15.19 8H11.19L11.99 4H9.99L9.19 8H6V10H8.79L7.99 14H5V16H7.59L6.79 20H8.79L9.59 16H13.59L12.79 20H14.79L15.59 16H19V14H15.99L16.79 10H20ZM14 14H10L10.8 10H14.8L14 14Z</StreamGeometry>
+    <StreamGeometry x:Key="IconWave">M2 12H4.5C5.3 12 6 11.3 6 10.5V6H8V18H10V6C10 4.9 9.1 4 8 4H6C4.9 4 4 4.9 4 6V10H2V12ZM12 6V18H14V13H16.5C17.3 13 18 12.3 18 11.5V6H20V18H22V6C22 4.9 21.1 4 20 4H18C16.9 4 16 4.9 16 6V11H14V6H12Z</StreamGeometry>
+  </Application.Resources>
+
+  <Application.Styles>
+    <FluentTheme />
+    <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
+
+    <!-- Shared: paper background + Inter -->
+    <Style Selector="Window">
+      <Setter Property="Background" Value="{StaticResource AppBackgroundBrush}" />
+      <Setter Property="FontFamily" Value="fonts:Inter#Inter" />
+      <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+    </Style>
+
+    <!-- Rounded cards: hairline border, no drop shadow -->
+    <Style Selector="Border.card">
+      <Setter Property="Background" Value="{StaticResource CardBrush}" />
+      <Setter Property="CornerRadius" Value="12" />
+      <Setter Property="BorderBrush" Value="{StaticResource LineBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+    </Style>
+    <Style Selector="Border.softCard">
+      <Setter Property="Background" Value="{StaticResource CardSoftBrush}" />
+      <Setter Property="CornerRadius" Value="12" />
+    </Style>
+    <Style Selector="Border.statusPill">
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="BorderBrush" Value="{StaticResource LineBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="Background" Value="{StaticResource CardBrush}" />
+      <Setter Property="Padding" Value="10,5" />
+    </Style>
+
+    <!-- Dashboard stat tiles — small label above a big mono number -->
+    <Style Selector="Border.statTile">
+      <Setter Property="Background" Value="{StaticResource CardBrush}" />
+      <Setter Property="CornerRadius" Value="12" />
+      <Setter Property="BorderBrush" Value="{StaticResource LineBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="Padding" Value="16,12" />
+    </Style>
+    <Style Selector="TextBlock.statLabel">
+      <Setter Property="FontFamily" Value="Menlo,Consolas,monospace" />
+      <Setter Property="FontSize" Value="10.5" />
+      <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+      <Setter Property="Margin" Value="0,0,0,4" />
+    </Style>
+    <Style Selector="TextBlock.statValue">
+      <Setter Property="FontFamily" Value="Menlo,Consolas,monospace" />
+      <Setter Property="FontSize" Value="27" />
+      <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+    </Style>
+
+    <!-- Brand wordmark — the Instrument Serif used across testbench.tools -->
+    <Style Selector="TextBlock.wordmark">
+      <Setter Property="FontFamily" Value="avares://Tdms.App/Assets/Fonts/InstrumentSerif-Regular.ttf#Instrument Serif" />
+    </Style>
+    <Style Selector="TextBlock.serifHeader">
+      <Setter Property="FontFamily" Value="avares://Tdms.App/Assets/Fonts/InstrumentSerif-Regular.ttf#Instrument Serif" />
+      <Setter Property="FontSize" Value="22" />
+      <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+    </Style>
+
+    <Style Selector="TextBlock.fieldLabel">
+      <Setter Property="FontSize" Value="11" />
+      <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+      <Setter Property="Margin" Value="4,0,0,4" />
+    </Style>
+    <Style Selector="TextBlock.mono">
+      <Setter Property="FontFamily" Value="Menlo,Consolas,monospace" />
+    </Style>
+    <Style Selector="TextBlock.muted">
+      <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+      <Setter Property="FontSize" Value="12" />
+    </Style>
+    <Style Selector="TextBlock.error">
+      <Setter Property="Foreground" Value="{StaticResource ErrorBrush}" />
+      <Setter Property="FontSize" Value="12" />
+    </Style>
+
+    <!-- Pill buttons -->
+    <Style Selector="Button">
+      <Setter Property="Background" Value="{StaticResource CardBrush}" />
+      <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+      <Setter Property="BorderBrush" Value="{StaticResource LineBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="Padding" Value="14,7" />
+      <Setter Property="FontSize" Value="13" />
+    </Style>
+    <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{StaticResource AccentSoftBrush}" />
+      <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}" />
+      <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+    </Style>
+    <Style Selector="Button:pressed /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{StaticResource AccentGradientBrush}" />
+      <Setter Property="Foreground" Value="#FFFFFF" />
+    </Style>
+
+    <!-- Ink accent button -->
+    <Style Selector="Button.accent">
+      <Setter Property="Background" Value="{StaticResource InkBrush}" />
+      <Setter Property="Foreground" Value="#FFFFFF" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="FontWeight" Value="Medium" />
+    </Style>
+    <Style Selector="Button.accent /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{StaticResource InkBrush}" />
+      <Setter Property="Foreground" Value="#FFFFFF" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="Button.accent:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{StaticResource InkHoverBrush}" />
+      <Setter Property="Foreground" Value="#FFFFFF" />
+    </Style>
+    <Style Selector="Button.accent:pressed /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{StaticResource AccentGradientPressedBrush}" />
+      <Setter Property="Foreground" Value="#FFFFFF" />
+    </Style>
+
+    <Style Selector="ToggleButton">
+      <Setter Property="Background" Value="{StaticResource CardBrush}" />
+      <Setter Property="BorderBrush" Value="{StaticResource LineBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="Padding" Value="14,7" />
+      <Setter Property="FontSize" Value="13" />
+    </Style>
+
+    <!-- Inputs -->
+    <Style Selector="TextBox">
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="Background" Value="#FFFFFF" />
+      <Setter Property="BorderBrush" Value="{StaticResource LineBrush}" />
+      <Setter Property="FontSize" Value="13" />
+      <Setter Property="MinHeight" Value="32" />
+      <Setter Property="Padding" Value="10,6" />
+    </Style>
+    <Style Selector="ComboBox">
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="Background" Value="#FFFFFF" />
+      <Setter Property="BorderBrush" Value="{StaticResource LineBrush}" />
+      <Setter Property="FontSize" Value="13" />
+      <Setter Property="MinHeight" Value="32" />
+      <Setter Property="Padding" Value="10,5" />
+    </Style>
+    <Style Selector="CheckBox">
+      <Setter Property="FontSize" Value="13" />
+    </Style>
+    <Style Selector="RadioButton">
+      <Setter Property="FontSize" Value="13" />
+    </Style>
+
+    <!-- Data grid -->
+    <Style Selector="DataGrid">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="RowBackground" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="GridLinesVisibility" Value="Horizontal" />
+      <Setter Property="HorizontalGridLinesBrush" Value="#1A26251F" />
+      <Setter Property="FontSize" Value="13" />
+    </Style>
+    <Style Selector="DataGridColumnHeader">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+      <Setter Property="FontSize" Value="12" />
+    </Style>
+    <Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
+      <Setter Property="Fill" Value="{StaticResource AccentGradientBrush}" />
+      <Setter Property="Opacity" Value="1" />
+    </Style>
+    <!-- Hovering a selected row must not drop back to the Fluent flat tint. -->
+    <Style Selector="DataGridRow:selected:pointerover /template/ Rectangle#BackgroundRectangle">
+      <Setter Property="Fill" Value="{StaticResource AccentGradientBrush}" />
+      <Setter Property="Opacity" Value="1" />
+    </Style>
+
+    <!-- Lists and trees -->
+    <Style Selector="ListBox">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="CornerRadius" Value="12" />
+    </Style>
+    <Style Selector="TreeView">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <Style Selector="TreeViewItem">
+      <Setter Property="FontSize" Value="13" />
+      <Setter Property="Padding" Value="4,3" />
+    </Style>
+    <Style Selector="TreeViewItem:selected /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="{StaticResource AccentGradientBrush}" />
+      <Setter Property="CornerRadius" Value="8" />
+    </Style>
+    <Style Selector="TreeViewItem:pointerover /template/ Border#PART_LayoutRoot">
+      <Setter Property="Background" Value="{StaticResource AccentSoftBrush}" />
+      <Setter Property="CornerRadius" Value="8" />
+    </Style>
+
+    <Style Selector="ProgressBar">
+      <Setter Property="Foreground" Value="{StaticResource AccentGradientBrush}" />
+      <Setter Property="Background" Value="{StaticResource CardSoftBrush}" />
+      <Setter Property="CornerRadius" Value="6" />
+      <Setter Property="MinHeight" Value="8" />
+    </Style>
+
+    <!-- Pictograms inside buttons -->
+    <Style Selector="Button PathIcon">
+      <Setter Property="Width" Value="15" />
+      <Setter Property="Height" Value="15" />
+      <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+    </Style>
+    <Style Selector="Button.accent PathIcon">
+      <Setter Property="Foreground" Value="#FFFFFF" />
+    </Style>
+  </Application.Styles>
+</Application>

@@ -1,0 +1,191 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Tdms.App.ViewModels"
+        xmlns:loc="using:Tdms.App.Localization"
+        x:Class="Tdms.App.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        x:CompileBindings="False"
+        Title="TDMS Converter"
+        Icon="/Assets/app.ico"
+        Width="1220" Height="780"
+        MinWidth="960" MinHeight="620">
+  <Window.Styles>
+    <Style Selector="WrapPanel#ToolbarPanel > :is(Control)">
+      <Setter Property="Margin" Value="0,3,6,3" />
+    </Style>
+  </Window.Styles>
+
+  <DockPanel Margin="22,18">
+
+    <!-- Header: serif wordmark + status pill | toolbar -->
+    <Grid DockPanel.Dock="Top" ColumnDefinitions="Auto,*" Margin="2,0,2,16">
+      <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+        <TextBlock Text="TDMS Converter" Classes="wordmark" FontSize="28"
+                   Foreground="{StaticResource InkBrush}" VerticalAlignment="Center" />
+        <Border Classes="statusPill" VerticalAlignment="Center">
+          <StackPanel Orientation="Horizontal" Spacing="7" VerticalAlignment="Center">
+            <Ellipse Width="8" Height="8" Fill="{StaticResource AccentGradientBrush}" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding StatusText}" Classes="mono" FontSize="12"
+                       Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" />
+          </StackPanel>
+        </Border>
+      </StackPanel>
+
+      <WrapPanel x:Name="ToolbarPanel" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+        <Button x:Name="OpenButton" Click="OnOpenClick" Classes="accent"
+                ToolTip.Tip="{Binding [OpenTip], Source={x:Static loc:Loc.Instance}}">
+          <StackPanel Orientation="Horizontal" Spacing="7">
+            <PathIcon Data="{StaticResource IconFolder}" />
+            <TextBlock Text="{Binding [Open], Source={x:Static loc:Loc.Instance}}" VerticalAlignment="Center" />
+          </StackPanel>
+        </Button>
+        <Button x:Name="ExportButton" Click="OnExportClick" IsEnabled="{Binding HasDocument}">
+          <StackPanel Orientation="Horizontal" Spacing="7">
+            <PathIcon Data="{StaticResource IconDownload}" />
+            <TextBlock Text="{Binding [Export], Source={x:Static loc:Loc.Instance}}" VerticalAlignment="Center" />
+          </StackPanel>
+        </Button>
+        <Button x:Name="ReloadButton" Click="OnReloadClick" IsEnabled="{Binding HasDocument}">
+          <StackPanel Orientation="Horizontal" Spacing="7">
+            <PathIcon Data="{StaticResource IconRefresh}" />
+            <TextBlock Text="{Binding [Reload], Source={x:Static loc:Loc.Instance}}" VerticalAlignment="Center" />
+          </StackPanel>
+        </Button>
+        <ComboBox x:Name="LanguageSelector"
+                  ItemsSource="{x:Static loc:Loc.LanguageOptions}"
+                  SelectedIndex="{Binding LanguageIndex, Source={x:Static loc:Loc.Instance}, Mode=TwoWay}"
+                  ToolTip.Tip="{Binding [Language], Source={x:Static loc:Loc.Instance}}"
+                  VerticalAlignment="Center" MinWidth="112" />
+      </WrapPanel>
+    </Grid>
+
+    <!-- Stat strip: big mono numbers, spectrum glow on the lead tile -->
+    <Grid DockPanel.Dock="Top" ColumnDefinitions="*,14,*,14,*,14,*" Margin="0,0,0,16">
+      <Border Grid.Column="0" Classes="statTile">
+        <Panel>
+          <Border CornerRadius="12" Background="{StaticResource SpectrumGlowBrush}" Margin="-16,-12" />
+          <StackPanel>
+            <TextBlock Text="{Binding [StatFileSize], Source={x:Static loc:Loc.Instance}}" Classes="statLabel" />
+            <TextBlock Text="{Binding FileSizeText}" Classes="statValue" />
+          </StackPanel>
+        </Panel>
+      </Border>
+      <Border Grid.Column="2" Classes="statTile">
+        <StackPanel>
+          <TextBlock Text="{Binding [StatGroups], Source={x:Static loc:Loc.Instance}}" Classes="statLabel" />
+          <TextBlock Text="{Binding GroupCountText}" Classes="statValue" />
+        </StackPanel>
+      </Border>
+      <Border Grid.Column="4" Classes="statTile">
+        <StackPanel>
+          <TextBlock Text="{Binding [StatChannels], Source={x:Static loc:Loc.Instance}}" Classes="statLabel" />
+          <TextBlock Text="{Binding ChannelCountText}" Classes="statValue" />
+        </StackPanel>
+      </Border>
+      <Border Grid.Column="6" Classes="statTile">
+        <StackPanel>
+          <TextBlock Text="{Binding [StatSamples], Source={x:Static loc:Loc.Instance}}" Classes="statLabel" />
+          <TextBlock Text="{Binding SampleCountText}" Classes="statValue" />
+        </StackPanel>
+      </Border>
+    </Grid>
+
+    <!-- Footer: file provenance + wordmark + copyright -->
+    <Border DockPanel.Dock="Bottom" Padding="12,10,12,2">
+      <DockPanel>
+        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+          <TextBlock Text="© 2026 TestBench.tools · All rights reserved." Classes="muted" FontSize="11"
+                     VerticalAlignment="Center" />
+          <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <TextBlock Text="TestBench" Classes="wordmark" FontSize="16"
+                       Foreground="{StaticResource InkBrush}" VerticalAlignment="Center" />
+            <TextBlock Text=".tools" Classes="wordmark" FontSize="16"
+                       Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" />
+          </StackPanel>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="16">
+          <TextBlock Text="{Binding FileNameText}" Classes="mono muted" VerticalAlignment="Center" />
+          <TextBlock Text="{Binding SourceText}" Classes="muted" VerticalAlignment="Center" />
+          <TextBlock Text="{Binding [LocalOnly], Source={x:Static loc:Loc.Instance}}" Classes="muted"
+                     VerticalAlignment="Center" />
+          <TextBlock Text="{Binding ErrorMessage}" Classes="error" VerticalAlignment="Center"
+                     TextWrapping="Wrap" MaxWidth="520" />
+        </StackPanel>
+      </DockPanel>
+    </Border>
+
+    <!-- Body: channel tree | property panel -->
+    <Grid ColumnDefinitions="1.05*,14,*">
+      <Border Grid.Column="0" Classes="card" Padding="16">
+        <DockPanel>
+          <TextBlock DockPanel.Dock="Top" Classes="serifHeader" Margin="0,0,0,10"
+                     Text="{Binding [Channels], Source={x:Static loc:Loc.Instance}}" />
+
+          <Panel>
+            <TreeView x:Name="ChannelTree"
+                      ItemsSource="{Binding Nodes}"
+                      SelectedItem="{Binding SelectedNode, Mode=TwoWay}"
+                      IsVisible="{Binding HasDocument}">
+              <TreeView.Styles>
+                <Style Selector="TreeViewItem">
+                  <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
+                </Style>
+              </TreeView.Styles>
+              <TreeView.ItemTemplate>
+                <TreeDataTemplate ItemsSource="{Binding Children}">
+                  <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,2">
+                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding Detail}" Classes="mono muted" FontSize="11"
+                               VerticalAlignment="Center" />
+                  </StackPanel>
+                </TreeDataTemplate>
+              </TreeView.ItemTemplate>
+            </TreeView>
+
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="8"
+                        IsVisible="{Binding !HasDocument}">
+              <PathIcon Data="{StaticResource IconWave}" Width="30" Height="30"
+                        Foreground="{StaticResource LineBrush}" HorizontalAlignment="Center" />
+              <TextBlock Text="{Binding [NoFileTitle], Source={x:Static loc:Loc.Instance}}"
+                         Classes="serifHeader" HorizontalAlignment="Center" />
+              <TextBlock Text="{Binding [NoFileHint], Source={x:Static loc:Loc.Instance}}"
+                         Classes="muted" HorizontalAlignment="Center" TextWrapping="Wrap"
+                         MaxWidth="340" TextAlignment="Center" />
+            </StackPanel>
+          </Panel>
+        </DockPanel>
+      </Border>
+
+      <Border Grid.Column="2" Classes="card" Padding="16">
+        <DockPanel>
+          <TextBlock DockPanel.Dock="Top" Classes="serifHeader" Margin="0,0,0,4"
+                     Text="{Binding [Properties], Source={x:Static loc:Loc.Instance}}" />
+          <TextBlock DockPanel.Dock="Top" Classes="mono muted" Margin="0,0,0,10"
+                     Text="{Binding SelectedTitle}" />
+          <Border Classes="softCard" Padding="10,6">
+            <DataGrid x:Name="PropertyGrid"
+                      ItemsSource="{Binding SelectedProperties}"
+                      AutoGenerateColumns="False"
+                      CanUserReorderColumns="False"
+                      IsReadOnly="True"
+                      HeadersVisibility="Column">
+              <DataGrid.Columns>
+                <!-- Property names are the reason to open this panel, so they size
+                     to content; the value column takes whatever is left. -->
+                <DataGridTextColumn Width="Auto" MinWidth="120"
+                                    Header="{Binding [ColProperty], Source={x:Static loc:Loc.Instance}}"
+                                    Binding="{Binding Name}" />
+                <DataGridTextColumn Width="Auto"
+                                    Header="{Binding [ColType], Source={x:Static loc:Loc.Instance}}"
+                                    Binding="{Binding Type}" />
+                <DataGridTextColumn Width="*" MinWidth="150"
+                                    Header="{Binding [ColValue], Source={x:Static loc:Loc.Instance}}"
+                                    Binding="{Binding Value}" />
+              </DataGrid.Columns>
+            </DataGrid>
+          </Border>
+        </DockPanel>
+      </Border>
+    </Grid>
+  </DockPanel>
+</Window>
