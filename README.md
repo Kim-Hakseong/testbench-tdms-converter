@@ -120,4 +120,4 @@ TdmsExporters.CsvWithProperties.Export(
     output);
 ```
 
-© 2026 TestBench.tools · All rights reserved.
+© 2026 TestBench.tools · MIT licensed — free and open source.
