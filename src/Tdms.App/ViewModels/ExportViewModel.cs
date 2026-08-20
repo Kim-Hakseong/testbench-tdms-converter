@@ -95,6 +95,13 @@ public sealed partial class ExportViewModel : ObservableObject
         _ => ',',
     };
 
+    /// <summary>
+    /// Whether the delimiter selector applies. A workbook has cells, not separated text,
+    /// so the choice is meaningless for xlsx and the control greys out rather than
+    /// implying it does something.
+    /// </summary>
+    public bool DelimiterApplies => Exporter.FileExtension != ".xlsx";
+
     /// <summary>Exporter matching <see cref="FormatIndex"/>.</summary>
     public ITdmsExporter Exporter =>
         TdmsExporters.All[Math.Clamp(FormatIndex, 0, TdmsExporters.All.Count - 1)];
@@ -229,5 +236,9 @@ public sealed partial class ExportViewModel : ObservableObject
         }
     }
 
-    partial void OnFormatIndexChanged(int value) => OnPropertyChanged(nameof(SuggestedFileName));
+    partial void OnFormatIndexChanged(int value)
+    {
+        OnPropertyChanged(nameof(SuggestedFileName));
+        OnPropertyChanged(nameof(DelimiterApplies));
+    }
 }

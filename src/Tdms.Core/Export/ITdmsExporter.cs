@@ -37,8 +37,8 @@ public sealed class TdmsExportRequest
 }
 
 /// <summary>
-/// A converter from TDMS to some other format. Only the CSV variants exist today; HDF5 or
-/// Parquet writers plug in behind the same interface.
+/// A converter from TDMS to some other format. CSV and xlsx ship today; HDF5 or Parquet
+/// writers plug in behind the same interface.
 /// </summary>
 public interface ITdmsExporter
 {
@@ -67,8 +67,11 @@ public static class TdmsExporters
     /// <summary>CSV preceded by every TDMS property as <c>#</c> comment lines.</summary>
     public static ITdmsExporter CsvWithProperties { get; } = new CsvWithPropertiesExporter();
 
+    /// <summary>A real .xlsx workbook: one sheet, numbers written as numbers.</summary>
+    public static ITdmsExporter Xlsx { get; } = new XlsxExporter();
+
     /// <summary>Every available exporter, in menu order.</summary>
-    public static IReadOnlyList<ITdmsExporter> All { get; } = [Csv, CsvWithProperties];
+    public static IReadOnlyList<ITdmsExporter> All { get; } = [Csv, CsvWithProperties, Xlsx];
 
     /// <summary>Looks an exporter up by <see cref="ITdmsExporter.Id"/>.</summary>
     /// <param name="id">Exporter id.</param>

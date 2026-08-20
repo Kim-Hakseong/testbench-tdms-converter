@@ -29,6 +29,7 @@
           <StackPanel Grid.Column="2">
             <TextBlock Classes="fieldLabel" Text="{Binding [Delimiter], Source={x:Static loc:Loc.Instance}}" />
             <ComboBox x:Name="DelimiterSelector"
+                      IsEnabled="{Binding DelimiterApplies}"
                       ItemsSource="{x:Static vm:ExportViewModel.DelimiterOptions}"
                       SelectedIndex="{Binding DelimiterIndex, Mode=TwoWay}"
                       HorizontalAlignment="Stretch" />

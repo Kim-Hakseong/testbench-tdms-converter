@@ -19,6 +19,9 @@ public static class LocStrings
 
     private static readonly Dictionary<string, string> En = new()
     {
+        ["FormatXlsx"] = "Excel workbook (.xlsx)",
+        ["XlsxFiles"] = "Excel workbooks",
+
         // Toolbar
         ["Open"] = "Open",
         ["OpenTip"] = "Open a .tdms file (the .tdms_index sidecar is used when present)",
@@ -91,6 +94,9 @@ public static class LocStrings
 
     private static readonly Dictionary<string, string> Ko = new()
     {
+        ["FormatXlsx"] = "Excel 통합 문서 (.xlsx)",
+        ["XlsxFiles"] = "Excel 통합 문서",
+
         ["Open"] = "열기",
         ["OpenTip"] = ".tdms 파일 열기 (.tdms_index 사이드카가 있으면 함께 사용)",
         ["Reload"] = "다시 읽기",
@@ -155,6 +161,9 @@ public static class LocStrings
 
     private static readonly Dictionary<string, string> Ja = new()
     {
+        ["FormatXlsx"] = "Excel ブック (.xlsx)",
+        ["XlsxFiles"] = "Excel ブック",
+
         ["Open"] = "開く",
         ["OpenTip"] = ".tdms ファイルを開く（.tdms_index があれば併用）",
         ["Reload"] = "再読み込み",
@@ -219,6 +228,9 @@ public static class LocStrings
 
     private static readonly Dictionary<string, string> De = new()
     {
+        ["FormatXlsx"] = "Excel-Arbeitsmappe (.xlsx)",
+        ["XlsxFiles"] = "Excel-Arbeitsmappen",
+
         ["Open"] = "Öffnen",
         ["OpenTip"] = ".tdms-Datei öffnen (die .tdms_index-Datei wird genutzt, wenn vorhanden)",
         ["Reload"] = "Neu laden",
@@ -283,6 +295,9 @@ public static class LocStrings
 
     private static readonly Dictionary<string, string> Zh = new()
     {
+        ["FormatXlsx"] = "Excel 工作簿 (.xlsx)",
+        ["XlsxFiles"] = "Excel 工作簿",
+
         ["Open"] = "打开",
         ["OpenTip"] = "打开 .tdms 文件（若存在 .tdms_index 索引文件则一并使用）",
         ["Reload"] = "重新读取",

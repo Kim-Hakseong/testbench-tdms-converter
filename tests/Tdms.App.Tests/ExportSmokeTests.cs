@@ -73,15 +73,26 @@ public sealed class ExportSmokeTests : IDisposable
     {
         var viewModel = BuildViewModel(out _);
 
-        Assert.Equal(2, ExportViewModel.FormatOptions.Length);
+        Assert.Equal(3, ExportViewModel.FormatOptions.Length);
         Assert.Equal(3, ExportViewModel.DelimiterOptions.Length);
 
         Assert.Same(TdmsExporters.Csv, viewModel.Exporter);
         Assert.Equal(',', viewModel.Delimiter);
         Assert.Equal("endurance-run-42.csv", viewModel.SuggestedFileName);
+        Assert.True(viewModel.DelimiterApplies);
 
         viewModel.FormatIndex = 1;
         Assert.Same(TdmsExporters.CsvWithProperties, viewModel.Exporter);
+        Assert.True(viewModel.DelimiterApplies);
+
+        // The suggested name has to follow the format, and the delimiter stops applying:
+        // a workbook has cells, not separated text.
+        viewModel.FormatIndex = 2;
+        Assert.Same(TdmsExporters.Xlsx, viewModel.Exporter);
+        Assert.Equal("endurance-run-42.xlsx", viewModel.SuggestedFileName);
+        Assert.False(viewModel.DelimiterApplies);
+
+        viewModel.FormatIndex = 0;
 
         viewModel.DelimiterIndex = 1;
         Assert.Equal(';', viewModel.Delimiter);

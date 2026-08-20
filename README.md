@@ -28,7 +28,7 @@ nothing.
   all are all read.
 - **Derives waveform time axes.** `wf_start_time`, `wf_increment` and `wf_start_offset` produce
   the time column; per-sample times are never stored.
-- **Exports CSV**, with or without a leading property header, with a comma, semicolon or tab
+- **Exports CSV or xlsx.** CSV with or without a leading property header, with a comma, semicolon or tab
   separator, and with progress and cancel.
 - **Speaks five languages.** English (default), 한국어, 日本語, Deutsch, 简体中文, switched at
   runtime and remembered across restarts.
@@ -55,8 +55,15 @@ silently wrong:
 | A channel that changes its data type mid-file | One channel, one type. |
 | Object paths deeper than group/channel | TDMS is a three-level model here. |
 
-Export targets are CSV and CSV-with-property-header. The exporters sit behind
+Export targets are CSV, CSV-with-property-header and xlsx. The exporters sit behind
 `ITdmsExporter`, so HDF5 or Parquet writers can be added without touching the reader.
+
+The xlsx writer is hand-rolled on `System.IO.Compression` rather than taken from a package:
+`Tdms.Core` has no dependencies, and the usual spreadsheet libraries build the whole sheet
+in memory, which is the opposite of what a file larger than RAM needs. Numbers are written
+as numeric cells, so no conversion step is needed on the other side. A sheet holds
+1,048,576 rows and 16,384 columns; an export that would exceed either is refused by name
+rather than truncated, and CSV has no such limit.
 
 ## Install
 

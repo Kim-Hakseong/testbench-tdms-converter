@@ -152,125 +152,43 @@ public abstract class CsvExporterBase : ITdmsExporter
         .Replace("\n", "\\n", StringComparison.Ordinal)
         .Replace("\r", "\\n", StringComparison.Ordinal);
 
-    /// <summary>
-    /// Buffers at most one chunk per channel and emits rows as soon as every channel that
-    /// still owes a value has delivered it.
-    /// </summary>
+    /// <summary>Formats assembled rows as CSV lines.</summary>
     private sealed class CsvRowSink(
         TextWriter writer,
-        List<TdmsChannel> channels,
+        IReadOnlyList<TdmsChannel> channels,
         TdmsChannel? timeChannel,
-        TdmsExportRequest request) : TdmsDataSink, IDisposable
+        TdmsExportRequest request)
+        : ChannelRowSink(channels, timeChannel, request.Progress)
     {
-        private readonly Dictionary<string, int> _columnByPath = channels
-            .Select((c, i) => (c.Path, Index: i))
-            .ToDictionary(x => x.Path, x => x.Index, StringComparer.Ordinal);
-
-        private readonly Queue<string>[] _pending = channels.Select(_ => new Queue<string>()).ToArray();
-        private readonly long[] _expected = channels.Select(c => c.SampleCount).ToArray();
-        private readonly long[] _delivered = new long[channels.Count];
         private readonly StringBuilder _row = new();
-        private readonly long _totalRows = channels.Count == 0 ? 0 : channels.Max(c => c.SampleCount);
 
-        private long _rowsWritten;
-        private long _lastReported;
-
-        public override void OnSamples(TdmsChannelRef channel, TdmsSampleBuffer samples)
-        {
-            if (!_columnByPath.TryGetValue(channel.Path, out var column))
-            {
-                return;
-            }
-
-            var queue = _pending[column];
-            for (var i = 0; i < samples.Count; i++)
-            {
-                queue.Enqueue(samples.GetText(i));
-            }
-
-            _delivered[column] += samples.Count;
-            EmitReadyRows();
-        }
-
-        public void Complete()
-        {
-            // Anything still queued belongs to rows we can now finish: the file is at its end.
-            while (_rowsWritten < _totalRows && _pending.Any(q => q.Count > 0))
-            {
-                WriteRow();
-            }
-
-            Report(force: true);
-        }
-
-        public void Dispose() => _row.Clear();
-
-        private void EmitReadyRows()
-        {
-            while (_rowsWritten < _totalRows && RowIsReady())
-            {
-                WriteRow();
-            }
-
-            Report(force: false);
-        }
-
-        private bool RowIsReady()
-        {
-            for (var i = 0; i < _pending.Length; i++)
-            {
-                if (_expected[i] > _rowsWritten && _pending[i].Count == 0)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        private void WriteRow()
+        protected override void WriteRow(long rowIndex, double? time, bool hasTimeColumn, string?[] cells)
         {
             _row.Clear();
-            if (timeChannel is not null && timeChannel.TryGetRelativeTime(_rowsWritten, out var seconds))
+            if (hasTimeColumn)
             {
-                _row.Append(seconds.ToString(CultureInfo.InvariantCulture)).Append(request.Delimiter);
-            }
-            else if (timeChannel is not null)
-            {
+                if (time is { } seconds)
+                {
+                    _row.Append(seconds.ToString(CultureInfo.InvariantCulture));
+                }
+
                 _row.Append(request.Delimiter);
             }
 
-            for (var i = 0; i < _pending.Length; i++)
+            for (var i = 0; i < cells.Length; i++)
             {
                 if (i > 0)
                 {
                     _row.Append(request.Delimiter);
                 }
 
-                if (_pending[i].TryDequeue(out var value))
+                if (cells[i] is { } value)
                 {
                     _row.Append(Escape(value, request.Delimiter));
                 }
             }
 
             writer.WriteLine(_row.ToString());
-            _rowsWritten++;
-        }
-
-        private void Report(bool force)
-        {
-            if (request.Progress is null)
-            {
-                return;
-            }
-
-            if (!force && _rowsWritten - _lastReported < ProgressEveryRows)
-            {
-                return;
-            }
-
-            _lastReported = _rowsWritten;
-            request.Progress.Report(new TdmsExportProgress(_rowsWritten, _totalRows));
         }
     }
 }

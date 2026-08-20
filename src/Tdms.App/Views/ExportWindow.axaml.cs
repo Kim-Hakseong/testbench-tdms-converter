@@ -33,10 +33,14 @@ public sealed partial class ExportWindow : Window
         {
             Title = Loc.T("SaveDialogTitle"),
             SuggestedFileName = viewModel.SuggestedFileName,
-            DefaultExtension = "csv",
+            // The picker follows the chosen exporter rather than always offering CSV:
+            // saving an xlsx as "run.csv" produces a file Excel opens as gibberish.
+            DefaultExtension = viewModel.Exporter.FileExtension.TrimStart('.'),
             FileTypeChoices =
             [
-                new FilePickerFileType(Loc.T("CsvFiles")) { Patterns = ["*.csv"] },
+                viewModel.Exporter.FileExtension == ".xlsx"
+                    ? new FilePickerFileType(Loc.T("XlsxFiles")) { Patterns = ["*.xlsx"] }
+                    : new FilePickerFileType(Loc.T("CsvFiles")) { Patterns = ["*.csv"] },
             ],
         });
 

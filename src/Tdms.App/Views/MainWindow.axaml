@@ -114,8 +114,13 @@
       </DockPanel>
     </Border>
 
-    <!-- Body: channel tree | property panel -->
-    <Grid ColumnDefinitions="1.05*,14,*">
+    <!-- Body: channel tree | property panel.
+         Equal columns on purpose, not for symmetry: the stat strip above is four
+         equal tiles with the same 14px gutter, so an equal split puts the Channels
+         card's right edge exactly under the Groups tile's, and the Properties
+         card's left edge exactly under the Channels tile's. Any other ratio only
+         lines up at one window width. -->
+    <Grid ColumnDefinitions="*,14,*">
       <Border Grid.Column="0" Classes="card" Padding="16">
         <DockPanel>
           <TextBlock DockPanel.Dock="Top" Classes="serifHeader" Margin="0,0,0,10"

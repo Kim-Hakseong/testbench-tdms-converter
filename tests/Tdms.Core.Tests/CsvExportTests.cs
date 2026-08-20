@@ -293,13 +293,20 @@ public sealed class CsvExportTests : IDisposable
     }
 
     [Fact]
-    public void TheExporterRegistryExposesBothCsvVariants()
+    public void TheExporterRegistryExposesEveryFormat()
     {
-        Assert.Equal(2, TdmsExporters.All.Count);
+        Assert.Equal(3, TdmsExporters.All.Count);
         Assert.Same(TdmsExporters.Csv, TdmsExporters.Find("csv"));
         Assert.Same(TdmsExporters.CsvWithProperties, TdmsExporters.Find("csv-properties"));
+        Assert.Same(TdmsExporters.Xlsx, TdmsExporters.Find("xlsx"));
         Assert.Null(TdmsExporters.Find("hdf5"));
-        Assert.All(TdmsExporters.All, e => Assert.Equal(".csv", e.FileExtension));
+
+        // Ids and extensions have to stay distinct: the id is persisted in settings and the
+        // extension picks the save dialog's filter.
+        Assert.Equal(TdmsExporters.All.Count, TdmsExporters.All.Select(e => e.Id).Distinct().Count());
+        Assert.Equal(".csv", TdmsExporters.Csv.FileExtension);
+        Assert.Equal(".csv", TdmsExporters.CsvWithProperties.FileExtension);
+        Assert.Equal(".xlsx", TdmsExporters.Xlsx.FileExtension);
     }
 
     /// <summary>Reports on the calling thread, unlike <see cref="Progress{T}"/>.</summary>
