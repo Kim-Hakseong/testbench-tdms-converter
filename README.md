@@ -1,12 +1,26 @@
-# TDMS Converter
+<p align="center">
+  <img src="docs/logo.png" width="160" alt="TDMS Converter logo" />
+</p>
 
-A desktop viewer and CSV converter for TDMS measurement files. Open a `.tdms`, see its
-groups, channels and — the part a plain CSV throws away — every property, then export the
-channels you actually need.
+<h1 align="center">TDMS Converter</h1>
 
-Part of the [TestBench.tools](https://testbench.tools) suite for T&M, embedded and industrial
-automation engineers. Everything runs locally: the app makes no network requests and uploads
-nothing.
+<p align="center">
+  <b>A desktop viewer and CSV converter for NI TDMS measurement files</b><br/>
+  Open a <code>.tdms</code>, see its groups, channels and — the part a plain CSV throws away —
+  every property, then export the channels you actually need.
+  Part of the <a href="https://testbench.tools">TestBench.tools</a> desktop suite.
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/github/v/release/Kim-Hakseong/testbench-tdms-converter?label=Release&color=brightgreen" alt="Latest release" />
+  <img src="https://img.shields.io/badge/.NET-8-512BD4?logo=dotnet" alt=".NET 8" />
+  <img src="https://img.shields.io/badge/Avalonia-11.1.4-8B44AC" alt="Avalonia 11.1.4" />
+  <img src="https://img.shields.io/badge/Windows-x64-0078D6?logo=windows" alt="Windows x64" />
+  <img src="https://img.shields.io/badge/Network-100%25%20Offline-brightgreen" alt="Fully offline" />
+  <img src="https://img.shields.io/badge/License-MIT-lightgrey" alt="MIT" />
+</p>
+
+---
 
 ![TDMS Converter](docs/screenshot.png)
 
