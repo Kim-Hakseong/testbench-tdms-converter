@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
@@ -56,5 +57,18 @@ public sealed partial class MainWindow : Window
 
         var dialog = new ExportWindow { DataContext = new ExportViewModel(document) };
         await dialog.ShowDialog(this);
+    }
+
+    /// <summary>The footer wordmark opens the site it belongs to.</summary>
+    private void OnBrandClick(object? sender, RoutedEventArgs e)
+    {
+        try
+        {
+            Process.Start(new ProcessStartInfo("https://testbench.tools") { UseShellExecute = true });
+        }
+        catch (Exception)
+        {
+            // Opening a browser is a courtesy — never let it take the window down.
+        }
     }
 }

@@ -94,14 +94,17 @@
     <Border DockPanel.Dock="Bottom" Padding="12,10,12,2">
       <DockPanel>
         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
-          <TextBlock Text="© 2026 TestBench.tools · MIT licensed" Classes="muted" FontSize="11"
+          <TextBlock Text="© 2026 TestBench.tools · operated by TECHSENSE · MIT licensed" Classes="muted" FontSize="11"
                      VerticalAlignment="Center" />
-          <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-            <TextBlock Text="TestBench" Classes="wordmark" FontSize="16"
-                       Foreground="{StaticResource InkBrush}" VerticalAlignment="Center" />
-            <TextBlock Text=".tools" Classes="wordmark" FontSize="16"
-                       Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" />
-          </StackPanel>
+          <Button Classes="brandLink" Click="OnBrandClick"
+                  ToolTip.Tip="Open testbench.tools">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+              <TextBlock Text="TestBench" Classes="wordmark" FontSize="16"
+                         Foreground="{StaticResource InkBrush}" VerticalAlignment="Center" />
+              <TextBlock Text=".tools" Classes="wordmark" FontSize="16"
+                         Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" />
+            </StackPanel>
+          </Button>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Spacing="16">
           <TextBlock Text="{Binding FileNameText}" Classes="mono muted" VerticalAlignment="Center" />

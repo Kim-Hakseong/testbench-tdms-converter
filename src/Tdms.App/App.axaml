@@ -120,6 +120,18 @@
     <Style Selector="TextBlock.wordmark">
       <Setter Property="FontFamily" Value="avares://Tdms.App/Assets/Fonts/InstrumentSerif-Regular.ttf#Instrument Serif" />
     </Style>
+
+    <!-- The footer wordmark is a link home; styled flat so it reads as the
+         brand mark it is, not as a button. -->
+    <Style Selector="Button.brandLink">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="Cursor" Value="Hand" />
+    </Style>
+    <Style Selector="Button.brandLink /template/ ContentPresenter">
+      <Setter Property="Background" Value="Transparent" />
+    </Style>
     <Style Selector="TextBlock.serifHeader">
       <Setter Property="FontFamily" Value="avares://Tdms.App/Assets/Fonts/InstrumentSerif-Regular.ttf#Instrument Serif" />
       <Setter Property="FontSize" Value="22" />
