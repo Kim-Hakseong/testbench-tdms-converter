@@ -9,7 +9,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <ApplicationIcon>Assets\app.ico</ApplicationIcon>
     <!-- Shown in the file properties of the published executable -->
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <Product>TDMS Converter</Product>
     <Company>TestBench.tools</Company>
     <Copyright>© 2026 TestBench.tools</Copyright>
